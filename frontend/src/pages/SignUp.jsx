@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const SignUp = () => {
     const [formData, setFormData] = useState({
-        full_name: '',
+        fullname: '',
         email: '',
         password: '',
         confirm_password: ''
@@ -17,6 +17,8 @@ const SignUp = () => {
             [id]: value
         }));
     };
+
+    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -48,8 +50,8 @@ const SignUp = () => {
                             <div>
                                 <form>
                                     <div className="flex flex-col gap-2">
-                                        <label htmlFor="full_name" className="block text-sm/6 font-medium">Full Name</label>
-                                        <input type="text" id="full_name" className="block h-10 w-full appearance-none rounded-lg bg-white px-3 sm:text-sm outline -outline-offset-1 outline-gray-950/15 focus:outline-gray-950 data-error:outline-rose-500" required="" tabIndex="1" value={formData.full_name} onChange={handleChange} />
+                                        <label htmlFor="fullname" className="block text-sm/6 font-medium">Full Name</label>
+                                        <input type="text" id="fullname" className="block h-10 w-full appearance-none rounded-lg bg-white px-3 sm:text-sm outline -outline-offset-1 outline-gray-950/15 focus:outline-gray-950 data-error:outline-rose-500" required="" tabIndex="1" value={formData.fullname} onChange={handleChange} />
                                     </div>
                                     <div className="flex flex-col gap-2">
                                         <label htmlFor="email" className="block text-sm/6 font-medium">Email</label>

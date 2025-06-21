@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import axiosInstance from '../api/axiosInstance.js';
+import { API_PATHS } from '../api/apiPath';
 
 const SignUp = () => {
     const [formData, setFormData] = useState({
@@ -24,7 +26,8 @@ const SignUp = () => {
         event.preventDefault();
         try {
             if (formData.password === formData.confirm_password) {
-                const response = await axios.post('http://localhost:5000/api/user/CreateUser', formData);
+                // const response = await axios.post('http://localhost:5000/api/user/CreateUser', formData);
+                const response = await axiosInstance.post(API_PATHS.USER.CREATE, formData);
                 if (response.status === 200) {
                     console.log('Registration successful');
                     navigate('/');

@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const SignIn = () => {
     const [formData, setFormData] = useState({
@@ -14,10 +16,24 @@ const SignIn = () => {
         }));
     };
 
-    const handleSubmit = (event) => {
+    const navigate = useNavigate();
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // Here you would typically handle the form submission, e.g., send data to your backend
-        console.log("Form submitted");
+        try {
+            if (formData.email && formData.password) {
+                const response = await axios.post('http://localhost:5000/api/user/LoginUser', formData);
+                if (response.status === 201) {
+                    console.log('Login successful');
+                    navigate('/dashboard');
+                }
+            } else {
+                console.error('All fields are required');
+                alert('All fields are required');
+            }
+        } catch (error) {
+            console.error('Something went wrong:', error.response?.data || error.message);
+        }
     }
 
     return (

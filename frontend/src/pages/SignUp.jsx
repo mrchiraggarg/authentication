@@ -21,7 +21,6 @@ const SignUp = () => {
                                             <label for="password" class="block text-sm/6 font-medium">Password</label>
                                             <input type="password" id="password" class="block h-10 w-full appearance-none rounded-lg bg-white px-3 sm:text-sm outline -outline-offset-1 outline-gray-950/15 focus:outline-gray-950 data-error:outline-rose-500" required="" tabindex="1" value="" />
                                         </div>
-                                        <a class="absolute top-0 right-0 text-sm/6 text-gray-600 hover:text-gray-800" tabindex="4" href="javascript:;">Forgot password?</a>
                                     </div>
                                     <button type="submit" class="mt-10 w-full inline-flex justify-center rounded-full text-sm/6 font-semibold bg-gray-950 text-white hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-950 px-4 py-2" tabindex="3">Sign Up</button>
                                     <p class="mt-6 text-sm/6">

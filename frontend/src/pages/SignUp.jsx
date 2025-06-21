@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const SignUp = () => {
     const [formData, setFormData] = useState({
@@ -16,10 +18,17 @@ const SignUp = () => {
         }));
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // Here you would typically handle the form submission, e.g., send data to your backend
-        console.log("Form submitted");
+        try {
+            const response = await axios.post('http://localhost:5000/api/user/CreateUser', formData);
+            if (response.status === 201) {
+                console.log('Registration successful');
+                navigate('/dashboard');
+            }
+        } catch (error) {
+            console.error('Registration failed:', error.response?.data || error.message);
+        }
     }
 
     return (

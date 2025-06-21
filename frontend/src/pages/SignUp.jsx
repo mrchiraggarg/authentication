@@ -21,10 +21,15 @@ const SignUp = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/api/user/CreateUser', formData);
+            const response = await axios.post('http://localhost:5000/api/user/CreateUser', formData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                }
+            });
             if (response.status === 201) {
                 console.log('Registration successful');
-                navigate('/dashboard');
+                useNavigate('/dashboard');
             }
         } catch (error) {
             console.error('Registration failed:', error.response?.data || error.message);

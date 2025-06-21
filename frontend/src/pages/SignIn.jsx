@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
-import axios from 'axios'
+// import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import axiosInstance from '../api/axiosInstance.js';
+import { API_PATHS } from '../api/apiPath';
 
 const SignIn = () => {
     const [formData, setFormData] = useState({
@@ -22,7 +24,8 @@ const SignIn = () => {
         event.preventDefault();
         try {
             if (formData.email && formData.password) {
-                const response = await axios.post('http://localhost:5000/api/user/LoginUser', formData);
+                // const response = await axios.post('http://localhost:5000/api/user/LoginUser', formData);
+                const response = await axiosInstance.post(API_PATHS.USER.CREATE, formData);
                 if (response.status === 200) {
                     console.log('Login successful');
                     navigate('/dashboard');

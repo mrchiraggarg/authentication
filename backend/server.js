@@ -16,10 +16,10 @@ app.use(cors({
 
 const PORT = process.env.PORT || 5000;
 
+app.use('/api/user', UserRoute);
+
 app.listen(PORT, () => {
     connect(process.env.MONGO_URI)
         .then(() => console.log("MongoDB connected successfully"))
         .catch(err => console.error("MongoDB connection failed:", err));
 });
-
-app.use('/api/user', UserRoute);

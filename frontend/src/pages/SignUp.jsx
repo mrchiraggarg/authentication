@@ -25,7 +25,7 @@ const SignUp = () => {
         try {
             if (formData.password === formData.confirm_password) {
                 const response = await axios.post('http://localhost:5000/api/user/CreateUser', formData);
-                if (response.status === 201) {
+                if (response.status === 200) {
                     console.log('Registration successful');
                     navigate('/');
                 }

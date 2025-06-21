@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import UserRoute from './routes/user.route.js';
 import { connect } from 'mongoose';
+import cors from 'cors';
 // import { BASE_URL, API_PATHS } from './utils/api-path.js';
 
 dotenv.config();

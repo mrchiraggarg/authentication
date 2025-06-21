@@ -13,7 +13,7 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
-app.post('/api/user', (req, res) => {
+app.post('/api/user/CreateUser', (req, res) => {
     const user = req.body;
     console.log('User data received:', user);
     res.status(201).json({ message: 'User created successfully', user });

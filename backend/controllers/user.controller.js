@@ -12,40 +12,45 @@ const generateRandomUsername = () => {
 };
 
 export const CreateUser = async (req, res) => {
-    try {
-        const { fullname, email, password } = req.body;
+    const user = req.body;
+    console.log('User data received:', user);
+    res.status(201).json({ message: 'User created successfully', user });
 
-        // Validate input
-        if (!fullname || !email || !password) {
-            return res.status(400).json({ message: 'All fields are required' });
-        }
 
-        // Check if user already exists
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            return res.status(400).json({ message: 'User already exists' });
-        }
+    // try {
+    //     const { fullname, email, password } = req.body;
 
-        // Generate a random username
-        const username = generateRandomUsername();
+    //     // Validate input
+    //     if (!fullname || !email || !password) {
+    //         return res.status(400).json({ message: 'All fields are required' });
+    //     }
 
-        // Hash the password
-        const hashedPassword = await bcrypt.hash(password, 10);
+    //     // Check if user already exists
+    //     const existingUser = await User.findOne({ email });
+    //     if (existingUser) {
+    //         return res.status(400).json({ message: 'User already exists' });
+    //     }
 
-        // Create new user
-        const newUser = new User({
-            username,
-            fullname,
-            email,
-            password: hashedPassword,
-            role: 'user'
-        });
+    //     // Generate a random username
+    //     const username = generateRandomUsername();
 
-        await newUser.save();
+    //     // Hash the password
+    //     const hashedPassword = await bcrypt.hash(password, 10);
 
-        res.status(201).json({ message: 'User created successfully', user: newUser });
-    } catch (error) {
-        console.error('Error creating user:', error);
-        res.status(500).json({ message: 'Internal server error' });
-    }
+    //     // Create new user
+    //     const newUser = new User({
+    //         username,
+    //         fullname,
+    //         email,
+    //         password: hashedPassword,
+    //         role: 'user'
+    //     });
+
+    //     await newUser.save();
+
+    //     res.status(201).json({ message: 'User created successfully', user: newUser });
+    // } catch (error) {
+    //     console.error('Error creating user:', error);
+    //     res.status(500).json({ message: 'Internal server error' });
+    // }
 }

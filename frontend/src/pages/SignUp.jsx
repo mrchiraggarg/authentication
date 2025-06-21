@@ -23,7 +23,6 @@ const SignUp = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            // console.log('Submitting form data:', formData);
             if (formData.password === formData.confirm_password) {
                 const response = await axios.post('http://localhost:5000/api/user/CreateUser', formData);
                 if (response.status === 201) {

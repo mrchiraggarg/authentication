@@ -91,7 +91,7 @@ const SignIn = () => {
                                     </button>
 
                                     <p className="mt-6 text-sm/6">
-                                        <span className="text-gray-600">Don &#x27;t have an account?</span>
+                                        <span className="text-gray-600">Don&#x27;t have an account?</span>
                                         <a className="font-semibold hover:text-gray-700" tabIndex="5" href="/signup">
                                             &nbsp;Create for Yourself <span aria-hidden="true">→</span>
                                         </a>

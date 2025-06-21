@@ -27,7 +27,7 @@ const SignUp = () => {
                 const response = await axios.post('http://localhost:5000/api/user/CreateUser', formData);
                 if (response.status === 201) {
                     console.log('Registration successful');
-                    navigate('/dashboard');
+                    navigate('/');
                 }
             } else {
                 console.error('Passwords do not match');

@@ -1,6 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const SignIn = () => {
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    })
+
+    const handleChange = (e) => {
+        const { id, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [id]: value
+        }));
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // Here you would typically handle the form submission, e.g., send data to your backend
+        console.log("Form submitted");
+    }
+
     return (
         <>
             <div className="grid min-h-dvh grid-cols-[1fr_2.5rem_minmax(0,var(--container-lg))_2.5rem_1fr] grid-rows-[1fr_auto_1fr] overflow-clip">
@@ -13,16 +32,45 @@ const SignIn = () => {
                                 <form>
                                     <div className="flex flex-col gap-2">
                                         <label htmlFor="email" className="block text-sm/6 font-medium">Email</label>
-                                        <input type="email" id="email" className="block h-10 w-full appearance-none rounded-lg bg-white px-3 sm:text-sm outline -outline-offset-1 outline-gray-950/15 focus:outline-gray-950 data-error:outline-rose-500" required="" tabIndex="1" value="" />
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            className="block h-10 w-full appearance-none rounded-lg bg-white px-3 sm:text-sm outline -outline-offset-1 outline-gray-950/15 focus:outline-gray-950 data-error:outline-rose-500"
+                                            required=""
+                                            tabIndex="1"
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                        />
                                     </div>
                                     <div className="relative mt-6">
                                         <div className="flex flex-col gap-2">
-                                            <label htmlFor="password" className="block text-sm/6 font-medium">Password</label>
-                                            <input type="password" id="password" className="block h-10 w-full appearance-none rounded-lg bg-white px-3 sm:text-sm outline -outline-offset-1 outline-gray-950/15 focus:outline-gray-950 data-error:outline-rose-500" required="" tabIndex="1" value="" />
+                                            <label
+                                                htmlFor="password"
+                                                className="block text-sm/6 font-medium"
+                                            >
+                                                Password
+                                            </label>
+                                            <input
+                                                type="password"
+                                                id="password"
+                                                className="block h-10 w-full appearance-none rounded-lg bg-white px-3 sm:text-sm outline -outline-offset-1 outline-gray-950/15 focus:outline-gray-950 data-error:outline-rose-500"
+                                                required=""
+                                                tabIndex="1"
+                                                value={formData.password}
+                                                onChange={handleChange}
+                                            />
                                         </div>
                                         {/* <a className="absolute top-0 right-0 text-sm/6 text-gray-600 hover:text-gray-800" tabIndex="4" href="javascript:;">Forgot password?</a> */}
                                     </div>
-                                    <button type="submit" className="mt-10 w-full inline-flex justify-center rounded-full text-sm/6 font-semibold bg-gray-950 text-white hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-950 px-4 py-2" tabIndex="3">Sign In</button>
+                                    <button
+                                        type="submit"
+                                        className="mt-10 w-full inline-flex justify-center rounded-full text-sm/6 font-semibold bg-gray-950 text-white hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-950 px-4 py-2"
+                                        tabIndex="3"
+                                        onClick={handleSubmit}
+                                    >
+                                        Sign In
+                                    </button>
+
                                     <p className="mt-6 text-sm/6">
                                         <span className="text-gray-600">Don &#x27;t have an account?</span>
                                         <a className="font-semibold hover:text-gray-700" tabIndex="5" href="/signup">

@@ -35,7 +35,7 @@ export const LoginUser = async (req, res) => {
         // Exclude password from response
         const { password: _, ...userWithoutPassword } = user.toObject();
 
-        res.status(200).json({
+        res.status(201).json({
             message: 'Login successful',
             user: userWithoutPassword
         });

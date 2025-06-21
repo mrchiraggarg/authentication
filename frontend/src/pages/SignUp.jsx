@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react'
 
 const SignUp = () => {
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // Here you would typically handle the form submission, e.g., send data to your backend
+        console.log("Form submitted");
+    }
+    
     return (
         <>
             <div class="grid min-h-dvh grid-cols-[1fr_2.5rem_minmax(0,var(--container-lg))_2.5rem_1fr] grid-rows-[1fr_auto_1fr] overflow-clip">
@@ -31,7 +37,14 @@ const SignUp = () => {
                                             <input type="password" id="confirm_password" class="block h-10 w-full appearance-none rounded-lg bg-white px-3 sm:text-sm outline -outline-offset-1 outline-gray-950/15 focus:outline-gray-950 data-error:outline-rose-500" required="" tabindex="1" value="" />
                                         </div>
                                     </div>
-                                    <button type="submit" class="mt-10 w-full inline-flex justify-center rounded-full text-sm/6 font-semibold bg-gray-950 text-white hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-950 px-4 py-2" tabindex="3">Sign Up</button>
+                                    <button
+                                        type="submit"
+                                        class="mt-10 w-full inline-flex justify-center rounded-full text-sm/6 font-semibold bg-gray-950 text-white hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-950 px-4 py-2"
+                                        tabindex="3"
+                                        onClick={handleSubmit}
+                                    >
+                                        Sign Up
+                                    </button>
                                     <p class="mt-6 text-sm/6">
                                         <span class="text-gray-600">Already have an account?</span>
                                         <a class="font-semibold hover:text-gray-700" tabindex="5" href="/">

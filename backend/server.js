@@ -11,7 +11,7 @@ app.use(express.json());
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-    connect()
+    connect(process.env.MONGO_URI)
         .then(() => console.log("MongoDB connected successfully"))
         .catch(err => console.error("MongoDB connection failed:", err));
 });

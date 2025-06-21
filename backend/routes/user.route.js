@@ -7,3 +7,5 @@ router.post('/CreateUser', (req, res) => {
     console.log('User data received:', user);
     res.status(201).json({ message: 'User created successfully', user });
 });
+
+export default router;

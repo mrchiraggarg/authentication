@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 
 const SignUp = () => {
     const [formData, setFormData] = useState({
@@ -21,15 +21,16 @@ const SignUp = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/api/user/CreateUser', formData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
+            // console.log('Submitting form data:', formData);
+            if (formData.password === formData.confirm_password) {
+                const response = await axios.post('http://localhost:5000/api/user/CreateUser', formData);
+                if (response.status === 201) {
+                    console.log('Registration successful');
+                    navigate('/dashboard');
                 }
-            });
-            if (response.status === 201) {
-                console.log('Registration successful');
-                useNavigate('/dashboard');
+            } else {
+                console.error('Passwords do not match');
+                alert('Passwords do not match');
             }
         } catch (error) {
             console.error('Registration failed:', error.response?.data || error.message);

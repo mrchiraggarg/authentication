@@ -35,7 +35,7 @@ export const LoginUser = async (req, res) => {
         // Exclude password from response
         const { password: _, ...userWithoutPassword } = user.toObject();
 
-        res.status(201).json({
+        res.status(200).json({
             message: 'Login successful',
             user: userWithoutPassword
         });
@@ -80,7 +80,7 @@ export const CreateUser = async (req, res) => {
 
         const savedUser = await newUser.save();
 
-        res.status(201).json({ 
+        res.status(200).json({ 
             message: 'User created successfully', 
             user: {
                 username: savedUser.username,

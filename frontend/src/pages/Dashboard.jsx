@@ -1,6 +1,16 @@
 import React from 'react'
 
 const Dashboard = () => {
+  // const fetchUsers = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:5000/api/user/getAllUsers');
+  //     // return response.data.users;
+  //     // Simulating fetch for demonstration purposes
+  //   } catch (error) {
+  //     console.error('Error fetching users:', error);
+  //     return [];
+  //   }  
+
   return (
     <>
       <nav className="flex items-center justify-between flex-wrap bg-teal-500 p-6">

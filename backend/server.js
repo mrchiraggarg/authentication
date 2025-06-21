@@ -1,5 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import UserRoute from './routes/user.route.js';
+
 dotenv.config();
 
 // console.log("Environment Variables:", process.env.PORT);
@@ -13,11 +15,7 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
-app.post('/api/user/CreateUser', (req, res) => {
-    const user = req.body;
-    console.log('User data received:', user);
-    res.status(201).json({ message: 'User created successfully', user });
-});
+app.use('/api/user', UserRoute);
 
 // app.get('/', (req, res) => {
 //     res.send('Hello World!');

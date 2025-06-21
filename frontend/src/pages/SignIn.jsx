@@ -25,7 +25,7 @@ const SignIn = () => {
         try {
             if (formData.email && formData.password) {
                 // const response = await axios.post('http://localhost:5000/api/user/LoginUser', formData);
-                const response = await axiosInstance.post(API_PATHS.USER.CREATE, formData);
+                const response = await axiosInstance.post(API_PATHS.USER.LOGIN, formData);
                 if (response.status === 200) {
                     console.log('Login successful');
                     navigate('/dashboard');

@@ -1,6 +1,21 @@
 import React, { useState, useEffect } from 'react'
 
 const SignUp = () => {
+    const [formData, setFormData] = useState({
+        full_name: '',
+        email: '',
+        password: '',
+        confirm_password: ''
+    });
+
+    const handleChange = (e) => {
+        const { id, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [id]: value
+        }));
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
         // Here you would typically handle the form submission, e.g., send data to your backend
@@ -18,36 +33,36 @@ const SignUp = () => {
                             <div>
                                 <form>
                                     <div className="flex flex-col gap-2">
-                                        <label for="full_name" className="block text-sm/6 font-medium">Full Name</label>
-                                        <input type="text" id="full_name" className="block h-10 w-full appearance-none rounded-lg bg-white px-3 sm:text-sm outline -outline-offset-1 outline-gray-950/15 focus:outline-gray-950 data-error:outline-rose-500" required="" tabindex="1" value="" />
+                                        <label htmlFor="full_name" className="block text-sm/6 font-medium">Full Name</label>
+                                        <input type="text" id="full_name" className="block h-10 w-full appearance-none rounded-lg bg-white px-3 sm:text-sm outline -outline-offset-1 outline-gray-950/15 focus:outline-gray-950 data-error:outline-rose-500" required="" tabIndex="1" value={formData.full_name} onChange={handleChange} />
                                     </div>
                                     <div className="flex flex-col gap-2">
-                                        <label for="email" className="block text-sm/6 font-medium">Email</label>
-                                        <input type="email" id="email" className="block h-10 w-full appearance-none rounded-lg bg-white px-3 sm:text-sm outline -outline-offset-1 outline-gray-950/15 focus:outline-gray-950 data-error:outline-rose-500" required="" tabindex="1" value="" />
+                                        <label htmlFor="email" className="block text-sm/6 font-medium">Email</label>
+                                        <input type="email" id="email" className="block h-10 w-full appearance-none rounded-lg bg-white px-3 sm:text-sm outline -outline-offset-1 outline-gray-950/15 focus:outline-gray-950 data-error:outline-rose-500" required="" tabIndex="1" value={formData.email} onChange={handleChange} />
                                     </div>
                                     <div className="relative mt-6">
                                         <div className="flex flex-col gap-2">
-                                            <label for="password" className="block text-sm/6 font-medium">Password</label>
-                                            <input type="password" id="password" className="block h-10 w-full appearance-none rounded-lg bg-white px-3 sm:text-sm outline -outline-offset-1 outline-gray-950/15 focus:outline-gray-950 data-error:outline-rose-500" required="" tabindex="1" value="" />
+                                            <label htmlFor="password" className="block text-sm/6 font-medium">Password</label>
+                                            <input type="password" id="password" className="block h-10 w-full appearance-none rounded-lg bg-white px-3 sm:text-sm outline -outline-offset-1 outline-gray-950/15 focus:outline-gray-950 data-error:outline-rose-500" required="" tabIndex="1" value={formData.password} onChange={handleChange} />
                                         </div>
                                     </div>
                                     <div className="relative mt-6">
                                         <div className="flex flex-col gap-2">
-                                            <label for="confirm_password" className="block text-sm/6 font-medium">Confirm Password</label>
-                                            <input type="password" id="confirm_password" className="block h-10 w-full appearance-none rounded-lg bg-white px-3 sm:text-sm outline -outline-offset-1 outline-gray-950/15 focus:outline-gray-950 data-error:outline-rose-500" required="" tabindex="1" value="" />
+                                            <label htmlFor="confirm_password" className="block text-sm/6 font-medium">Confirm Password</label>
+                                            <input type="password" id="confirm_password" className="block h-10 w-full appearance-none rounded-lg bg-white px-3 sm:text-sm outline -outline-offset-1 outline-gray-950/15 focus:outline-gray-950 data-error:outline-rose-500" required="" tabIndex="1" value={formData.confirm_password} onChange={handleChange} />
                                         </div>
                                     </div>
                                     <button
                                         type="submit"
                                         className="mt-10 w-full inline-flex justify-center rounded-full text-sm/6 font-semibold bg-gray-950 text-white hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-950 px-4 py-2"
-                                        tabindex="3"
+                                        tabIndex="3"
                                         onClick={handleSubmit}
                                     >
                                         Sign Up
                                     </button>
                                     <p className="mt-6 text-sm/6">
                                         <span className="text-gray-600">Already have an account?</span>
-                                        <a className="font-semibold hover:text-gray-700" tabindex="5" href="/">
+                                        <a className="font-semibold hover:text-gray-700" tabIndex="5" href="/">
                                             &nbsp;Access Now <span aria-hidden="true">→</span>
                                         </a>
                                     </p>

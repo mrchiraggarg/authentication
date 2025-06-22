@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 // import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import axiosInstance from '../api/axiosInstance.js';
-import { API_PATHS } from '../api/apiPath';
+import { API_PATHS } from '../api/apiPath.js';
 
 const SignIn = () => {
     const [formData, setFormData] = useState({

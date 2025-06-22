@@ -1,25 +1,28 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import axiosInstance from '../api/axiosInstance.js';
 import { API_PATHS } from '../api/apiPath.js';
 
 const Dashboard = () => {
-  const usersData = [];
+  const [usersData, setUsersData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchUsers = async () => {
     try {
       const response = await axiosInstance.post(API_PATHS.USER.GETALLUSERS);
       if (response.status === 200) {
-        usersData.push(...response.data);
+        setUsersData(response.data);
       }
     } catch (error) {
-      console.error('Error fetching users:', error);
-      return [];
+      console.error('Error fetching users:', error.response?.data || error.message);
+    } finally {
+      setLoading(false);
     }
-  }
-  fetchUsers();
-  
-  console.log('Users fetched successfully:', usersData);
- 
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
   return (
     <>
       <nav className="flex items-center justify-between flex-wrap bg-teal-500 p-6">
@@ -48,25 +51,28 @@ const Dashboard = () => {
       </nav>
       <div className="container mx-auto p-6">
         <div className="bg-white shadow-md rounded my-6">
-          <table className="min-w-full table-auto">
-            <thead>
-              <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                <th className="py-3 px-6 text-left">Name</th>
-                <th className="py-3 px-6 text-left">Email</th>
-                <th className="py-3 px-6 text-left">Username</th>
-                <th className="py-3 px-6 text-left">Role</th>
-                <th className="py-3 px-6 text-left">Actions</th>
-              </tr>
-            </thead>
-            {usersData.length > 0 ?
-              (
-                <tbody className="text-gray-600 text-sm font-light">
-                  {usersData.map(user => (
+          <div className="overflow-x-auto">
+            <table className="min-w-full table-auto">
+              <thead>
+                <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                  <th className="py-3 px-6 text-left">Name</th>
+                  <th className="py-3 px-6 text-left">Email</th>
+                  <th className="py-3 px-6 text-left">Username</th>
+                  <th className="py-3 px-6 text-left">Actions</th>
+                </tr>
+              </thead>
+
+              <tbody className="text-gray-600 text-sm font-light">
+                {loading ? (
+                  <tr>
+                    <td colSpan="5" className="text-center py-4">Loading users...</td>
+                  </tr>
+                ) : usersData.length > 0 ? (
+                  usersData.map(user => (
                     <tr key={user._id} className="border-b border-gray-200 hover:bg-gray-100">
                       <td className="py-3 px-6 text-left whitespace-nowrap">{user.fullname}</td>
                       <td className="py-3 px-6 text-left">{user.email}</td>
                       <td className="py-3 px-6 text-left">{user.username}</td>
-                      <td className="py-3 px-6 text-left">{user.role}</td>
                       <td className="py-3 px-6 text-left">
                         <div className="flex items-center space-x-4">
                           <button className="text-blue-500 hover:text-blue-700">Edit</button>
@@ -74,17 +80,15 @@ const Dashboard = () => {
                         </div>
                       </td>
                     </tr>
-                  ))}
-                </tbody>
-              ) : (
-                <tbody className="text-gray-600 text-sm font-light">
+                  ))
+                ) : (
                   <tr>
-                    <td colSpan="6" className="py-3 px-6 text-center">No users found</td>
+                    <td colSpan="5" className="text-center py-4">No users found</td>
                   </tr>
-                </tbody>
-              )
-            }
-          </table>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 

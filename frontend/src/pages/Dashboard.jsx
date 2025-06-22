@@ -23,6 +23,18 @@ const Dashboard = () => {
     fetchUsers();
   }, []);
 
+  const handleDelete = async (userId) => {
+    try {
+      const response = await axiosInstance.post(API_PATHS.USER.DELETEUSER, { userId });
+      if (response.status === 200) {
+        setUsersData(usersData.filter(user => user._id !== userId));
+        console.log('User deleted successfully');
+      }
+    } catch (error) {
+      console.error('Error deleting user:', error.response?.data || error.message);
+    }
+  };
+
   return (
     <>
       <nav className="flex items-center justify-between flex-wrap bg-teal-500 p-6">
@@ -76,7 +88,7 @@ const Dashboard = () => {
                       <td className="py-3 px-6 text-left">
                         <div className="flex items-center space-x-4">
                           <button className="text-blue-500 hover:text-blue-700">Edit</button>
-                          <button className="text-red-500 hover:text-red-700">Delete</button>
+                          <button className="text-red-500 hover:text-red-700" onClick={() => handleDelete(user._id)}>Delete</button>
                         </div>
                       </td>
                     </tr>

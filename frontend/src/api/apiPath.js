@@ -4,5 +4,6 @@ export const API_PATHS = {
     USER: {
         CREATE: `${CORE_URL}/api/user/CreateUser`,
         LOGIN: `${CORE_URL}/api/user/LoginUser`,
+        GETALLUSERS: `${CORE_URL}/api/user/GetAllUsers`,
     }
 };

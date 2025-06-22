@@ -56,7 +56,6 @@ const Dashboard = () => {
                 <th className="py-3 px-6 text-left">Email</th>
                 <th className="py-3 px-6 text-left">Username</th>
                 <th className="py-3 px-6 text-left">Role</th>
-                <th className="py-3 px-6 text-left">Status</th>
                 <th className="py-3 px-6 text-left">Actions</th>
               </tr>
             </thead>
@@ -69,11 +68,6 @@ const Dashboard = () => {
                       <td className="py-3 px-6 text-left">{user.email}</td>
                       <td className="py-3 px-6 text-left">{user.username}</td>
                       <td className="py-3 px-6 text-left">{user.role}</td>
-                      <td className="py-3 px-6 text-left">
-                        <span className={`bg-${user.status === 'active' ? 'green' : 'red'}-200 text-${user.status === 'active' ? 'green' : 'red'}-600 py-1 px-3 rounded-full text-xs`}>
-                          {user.status}
-                        </span>
-                      </td>
                       <td className="py-3 px-6 text-left">
                         <div className="flex items-center space-x-4">
                           <button className="text-blue-500 hover:text-blue-700">Edit</button>

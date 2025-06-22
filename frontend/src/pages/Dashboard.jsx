@@ -3,11 +3,14 @@ import axiosInstance from '../api/axiosInstance.js';
 import { API_PATHS } from '../api/apiPath.js';
 
 const Dashboard = () => {
+  const usersData = [];
+
   const fetchUsers = async () => {
     try {
-      const response = await axiosInstance.post(API_PATHS.USER.GETALLUSERS, formData);
+      const response = await axiosInstance.post(API_PATHS.USER.GETALLUSERS);
       if (response.status === 200) {
-        console.log('Users fetched successfully:', response.data);
+        usersData.push(...response.data);
+        // console.log('Users fetched successfully:', usersData);
       }
       // return response.data.users;
       // Simulating fetch for demonstration purposes
@@ -16,6 +19,7 @@ const Dashboard = () => {
       return [];
     }
   }
+  fetchUsers();
 
   return (
     <>
@@ -43,7 +47,6 @@ const Dashboard = () => {
           </div>
         </div> */}
       </nav>
-
       <div className="container mx-auto p-6">
         <div className="bg-white shadow-md rounded my-6">
           <table className="min-w-full table-auto">
@@ -51,27 +54,43 @@ const Dashboard = () => {
               <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                 <th className="py-3 px-6 text-left">Name</th>
                 <th className="py-3 px-6 text-left">Email</th>
+                <th className="py-3 px-6 text-left">Username</th>
                 <th className="py-3 px-6 text-left">Role</th>
                 <th className="py-3 px-6 text-left">Status</th>
                 <th className="py-3 px-6 text-left">Actions</th>
               </tr>
             </thead>
-            <tbody className="text-gray-600 text-sm font-light">
-              <tr className="border-b border-gray-200 hover:bg-gray-100">
-                <td className="py-3 px-6 text-left whitespace-nowrap">John Doe</td>
-                <td className="py-3 px-6 text-left">john@example.com</td>
-                <td className="py-3 px-6 text-left">User</td>
-                <td className="py-3 px-6 text-left">
-                  <span className="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">Active</span>
-                </td>
-                <td className="py-3 px-6 text-left">
-                  <div className="flex items-center space-x-4">
-                    <button className="text-blue-500 hover:text-blue-700">Edit</button>
-                    <button className="text-red-500 hover:text-red-700">Delete</button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
+            {usersData.length > 0 ?
+              (
+                <tbody className="text-gray-600 text-sm font-light">
+                  {usersData.map(user => (
+                    <tr key={user.id} className="border-b border-gray-200 hover:bg-gray-100">
+                      <td className="py-3 px-6 text-left whitespace-nowrap">{user.fullname}</td>
+                      <td className="py-3 px-6 text-left">{user.email}</td>
+                      <td className="py-3 px-6 text-left">{user.username}</td>
+                      <td className="py-3 px-6 text-left">{user.role}</td>
+                      <td className="py-3 px-6 text-left">
+                        <span className={`bg-${user.status === 'active' ? 'green' : 'red'}-200 text-${user.status === 'active' ? 'green' : 'red'}-600 py-1 px-3 rounded-full text-xs`}>
+                          {user.status}
+                        </span>
+                      </td>
+                      <td className="py-3 px-6 text-left">
+                        <div className="flex items-center space-x-4">
+                          <button className="text-blue-500 hover:text-blue-700">Edit</button>
+                          <button className="text-red-500 hover:text-red-700">Delete</button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              ) : (
+                <tbody className="text-gray-600 text-sm font-light">
+                  <tr>
+                    <td colSpan="6" className="py-3 px-6 text-center">No users found</td>
+                  </tr>
+                </tbody>
+              )
+            }
           </table>
         </div>
       </div>

@@ -10,17 +10,16 @@ const Dashboard = () => {
       const response = await axiosInstance.post(API_PATHS.USER.GETALLUSERS);
       if (response.status === 200) {
         usersData.push(...response.data);
-        // console.log('Users fetched successfully:', usersData);
       }
-      // return response.data.users;
-      // Simulating fetch for demonstration purposes
     } catch (error) {
       console.error('Error fetching users:', error);
       return [];
     }
   }
   fetchUsers();
-
+  
+  console.log('Users fetched successfully:', usersData);
+ 
   return (
     <>
       <nav className="flex items-center justify-between flex-wrap bg-teal-500 p-6">

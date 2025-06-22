@@ -62,7 +62,7 @@ const Dashboard = () => {
               (
                 <tbody className="text-gray-600 text-sm font-light">
                   {usersData.map(user => (
-                    <tr key={user.id} className="border-b border-gray-200 hover:bg-gray-100">
+                    <tr key={user._id} className="border-b border-gray-200 hover:bg-gray-100">
                       <td className="py-3 px-6 text-left whitespace-nowrap">{user.fullname}</td>
                       <td className="py-3 px-6 text-left">{user.email}</td>
                       <td className="py-3 px-6 text-left">{user.username}</td>

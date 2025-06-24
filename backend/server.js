@@ -27,6 +27,9 @@ app.listen(PORT, () => {
 });
 
 function loggingMiddleware(req, res, next) {
-    console.log(`${req.method} request to ${req.url}`);
+    console.log(`${new Date().toISOString()}: ${req.method} request to ${req.url}`);
     next();
+}
+
+function authorizeUserAccess(req, res, next) {
 }

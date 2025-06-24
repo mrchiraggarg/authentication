@@ -32,4 +32,6 @@ function loggingMiddleware(req, res, next) {
 }
 
 function authorizeUserAccess(req, res, next) {
+    const user = req.user; // Assuming user information is attached to the request
+    const resource = req.originalUrl;
 }

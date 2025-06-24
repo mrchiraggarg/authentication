@@ -39,6 +39,8 @@ function authorizeUserAccess(req, res, next) {
 
     // Implement your authorization logic here
     if (user && user.permissions.includes('admin')) {
+        user.admin = true; // Example of setting an admin flag
+        console.log(`User ${user.id} is authorized for resource: ${resource}`);
         next(); // User is authorized
     } else {
         res.status(403).json({ message: 'Forbidden' });

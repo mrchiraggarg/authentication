@@ -24,3 +24,7 @@ app.listen(PORT, () => {
         .then(() => console.log("MongoDB connected successfully"))
         .catch(err => console.error("MongoDB connection failed:", err));
 });
+
+function loggingMiddleware(req, res, next) {
+    console.log(`${req.method} request to ${req.url}`);
+}

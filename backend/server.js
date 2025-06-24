@@ -35,7 +35,7 @@ function authorizeUserAccess(req, res, next) {
     const user = req.user; // Assuming user information is attached to the request
     const resource = req.originalUrl;
 
-    console.log(`Authorization check for user: ${user ? user.id : 'unknown'} on resource: ${resource}`);
+    console.error(`Authorization check for user: ${user ? user.id : 'unknown'} on resource: ${resource}`);
 
     // Implement your authorization logic here
     if (user && user.permissions.includes('admin')) {

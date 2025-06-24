@@ -34,4 +34,11 @@ function loggingMiddleware(req, res, next) {
 function authorizeUserAccess(req, res, next) {
     const user = req.user; // Assuming user information is attached to the request
     const resource = req.originalUrl;
+
+    // Implement your authorization logic here
+    if (user && user.permissions.includes('admin')) {
+        next(); // User is authorized
+    } else {
+        res.status(403).json({ message: 'Forbidden' });
+    }
 }

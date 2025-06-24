@@ -18,7 +18,8 @@ app.use(cors({
 const PORT = process.env.PORT || 5000;
 
 // app.use(loggingMiddleware);
-app.use('/api/user', authorizeUserAccess, UserRoute);
+// app.use('/api/user', authorizeUserAccess, UserRoute);
+app.use('/api/user', UserRoute);
 
 app.listen(PORT, () => {
     connect(process.env.MONGO_URI)

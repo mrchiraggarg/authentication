@@ -32,18 +32,18 @@ app.listen(PORT, () => {
 //     next();
 // }
 
-function authorizeUserAccess(req, res, next) {
-    const user = req.user; // Assuming user information is attached to the request
-    const resource = req.originalUrl;
+// function authorizeUserAccess(req, res, next) {
+//     const user = req.user; // Assuming user information is attached to the request
+//     const resource = req.originalUrl;
 
-    console.error(`Authorization check for user: ${user ? user.id : 'unknown'} on resource: ${resource}`);
+//     console.error(`Authorization check for user: ${user ? user.id : 'unknown'} on resource: ${resource}`);
 
-    // Implement your authorization logic here
-    if (user && user.permissions.includes('admin')) {
-        user.admin = true; // Example of setting an admin flag
-        console.log(`User ${user.id} is authorized for resource: ${resource}`);
-        next(); // User is authorized
-    } else {
-        res.status(403).json({ message: 'Forbidden' });
-    }
-}
+//     // Implement your authorization logic here
+//     if (user && user.permissions.includes('admin')) {
+//         user.admin = true; // Example of setting an admin flag
+//         console.log(`User ${user.id} is authorized for resource: ${resource}`);
+//         next(); // User is authorized
+//     } else {
+//         res.status(403).json({ message: 'Forbidden' });
+//     }
+// }

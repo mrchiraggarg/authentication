@@ -26,10 +26,10 @@ app.listen(PORT, () => {
         .catch(err => console.error("MongoDB connection failed:", err));
 });
 
-function loggingMiddleware(req, res, next) {
-    console.log(`${new Date().toISOString()}: ${req.method} request to ${req.url}`);
-    next();
-}
+// function loggingMiddleware(req, res, next) {
+//     console.log(`${new Date().toISOString()}: ${req.method} request to ${req.url}`);
+//     next();
+// }
 
 function authorizeUserAccess(req, res, next) {
     const user = req.user; // Assuming user information is attached to the request

@@ -12,6 +12,8 @@ const EditForm = () => {
   })
   const [loading, setLoading] = useState(true)
 
+  console.log('EditForm component rendered with user ID:', _id)
+
   const fetchUserById = async (userId) => {
     try {
       const response = await axiosInstance.post(API_PATHS.USER.GETUSERBYID, { userId })

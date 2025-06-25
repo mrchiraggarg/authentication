@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import axiosInstance from '../utils/axiosInstance'
+import { API_PATHS } from '../utils/constants'
 
 const EditForm = () => {
-  const [usersData, setUsersData] = useState([]) // This state is not used in this component but can be used to fetch user data if needed
-  const [loading, setLoading] = useState(true) // This state is not used in this component but can be used to manage loading state if fetching data
+  const { _id } = useParams()
+  const [usersData, setUsersData] = useState({
+    fullname: '',
+    email: '',
+    username: ''
+  })
+  const [loading, setLoading] = useState(true)
 
   const fetchUserById = async (userId) => {
     try {
       const response = await axiosInstance.post(API_PATHS.USER.GETUSERBYID, { userId })
       if (response.status === 200) {
-        setUsersData([response.data])
+        setUsersData(response.data)
       }
     } catch (error) {
       console.error('Error fetching user by ID:', error)
@@ -17,16 +24,9 @@ const EditForm = () => {
   }
 
   useEffect(() => {
-    const userId = useParams()._id // Replace with actual user ID or get it from props or context
-    fetchUserById(userId)
-    setLoading(false) // Set loading to false after fetching data
-  }, [])
-
-  // const [formData, setFormData] = useState({
-  //   fullname: '',
-  //   email: '',
-  //   username: ''
-  // })
+    fetchUserById(_id)
+    setLoading(false)
+  }, [_id])
 
   const handleChange = (e) => {
     const { name, value } = e.target

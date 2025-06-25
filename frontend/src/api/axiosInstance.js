@@ -5,6 +5,8 @@ const token = localStorage.getItem('token'); // Get the token from storage
 // If the token is not available, it will be undefined
 // If the token is available, it will be a string
 
+console.log(`Token used in axios instance: ${token}`); // Debugging log to check the token
+
 const axiosInstance = axios.create({
   baseURL: API_PATHS.USER.CREATE, // Use the API path from the environment variable
   timeout: 10000, // Set a timeout of 10 seconds

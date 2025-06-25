@@ -36,15 +36,22 @@ export const LoginUser = async (req, res) => {
         // Exclude password from response
         const { password: _, ...userWithoutPassword } = user.toObject();
 
+        const token = jwt.sign(
+            { id: user._id, email: user.email, role: user.role },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' } // token expires in 1 hour
+        );
+
         res.status(200).json({
             message: 'Login successful',
+            token,
             user: userWithoutPassword
         });
     } catch (error) {
         // console.error('Error logging in:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             message: 'Internal server error',
-            error: error.message 
+            error: error.message
         });
     }
 }
@@ -81,8 +88,8 @@ export const CreateUser = async (req, res) => {
 
         const savedUser = await newUser.save();
 
-        res.status(200).json({ 
-            message: 'User created successfully', 
+        res.status(200).json({
+            message: 'User created successfully',
             user: {
                 username: savedUser.username,
                 fullname: savedUser.fullname,
@@ -92,9 +99,9 @@ export const CreateUser = async (req, res) => {
         });
     } catch (error) {
         // console.error('Error creating user:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             message: 'Internal server error',
-            error: error.message 
+            error: error.message
         });
     }
 }
@@ -105,9 +112,9 @@ export const GetAllUsers = async (req, res) => {
         res.status(200).json(users);
     } catch (error) {
         // console.error('Error fetching users:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             message: 'Internal server error',
-            error: error.message 
+            error: error.message
         });
     }
 }
@@ -130,9 +137,9 @@ export const DeleteUser = async (req, res) => {
         res.status(200).json({ message: 'User deleted successfully' });
     } catch (error) {
         // console.error('Error deleting user:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             message: 'Internal server error',
-            error: error.message 
+            error: error.message
         });
     }
 }

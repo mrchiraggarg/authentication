@@ -88,7 +88,8 @@ const Dashboard = () => {
                       <td className="py-3 px-6 text-left">
                         <div className="flex items-center space-x-4">
                           <Link to={`/edit/${user._id}`} className="text-blue-500 hover:text-blue-700">Edit</Link>
-                          <button className="text-red-500 hover:text-red-700" onClick={() => handleDelete(user._id)}>Delete</button>                        </div>
+                          <button className="text-red-500 hover:text-red-700" onClick={() => handleDelete(user._id)}>Delete</button>
+                        </div>
                       </td>
                     </tr>
                   ))

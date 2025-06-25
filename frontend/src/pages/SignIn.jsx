@@ -28,7 +28,6 @@ const SignIn = () => {
                 const response = await axiosInstance.post(API_PATHS.USER.LOGIN, formData);
                 if (response.status === 200) {
                     localStorage.setItem('token', response.data.token);
-                    console.log('Login successful');
                     navigate('/dashboard');
                 }
             } else {

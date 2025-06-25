@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import UserRoute from './routes/user.route.js';
 import { connect } from 'mongoose';
 import cors from 'cors';
+// import jwt from 'jsonwebtoken';
 // import { BASE_URL, API_PATHS } from './utils/api-path.js';
 
 dotenv.config();

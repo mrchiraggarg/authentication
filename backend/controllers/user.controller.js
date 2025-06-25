@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from 'bcryptjs';
 import User from "../models/user.model.js";
+import jwt from 'jsonwebtoken';
 
 const generateRandomUsername = () => {
     const adjectives = ['Happy', 'Clever', 'Brave', 'Swift', 'Bright', 'Cosmic', 'Mystic', 'Wild'];

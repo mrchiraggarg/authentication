@@ -1,15 +1,36 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 const EditForm = () => {
-  const [formData, setFormData] = useState({
-    fullname: '',
-    email: '',
-    username: ''
-  })
+  const [usersData, setUsersData] = useState([]) // This state is not used in this component but can be used to fetch user data if needed
+  const [loading, setLoading] = useState(true) // This state is not used in this component but can be used to manage loading state if fetching data
+
+  const fetchUserById = async (userId) => {
+    try {
+      const response = await axiosInstance.post(API_PATHS.USER.GETUSERBYID, { userId })
+      if (response.status === 200) {
+        setUsersData([response.data])
+      }
+    } catch (error) {
+      console.error('Error fetching user by ID:', error)
+    }
+  }
+
+  useEffect(() => {
+    const userId = useParams()._id // Replace with actual user ID or get it from props or context
+    fetchUserById(userId)
+    setLoading(false) // Set loading to false after fetching data
+  }, [])
+
+  // const [formData, setFormData] = useState({
+  //   fullname: '',
+  //   email: '',
+  //   username: ''
+  // })
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setFormData(prevState => ({
+    setUsersData(prevState => ({
       ...prevState,
       [name]: value
     }))
@@ -40,7 +61,7 @@ const EditForm = () => {
                 id="fullname"
                 name="fullname"
                 className="block h-10 w-full appearance-none rounded-lg bg-white px-3 sm:text-sm outline -outline-offset-1 outline-gray-950/15 focus:outline-gray-950 data-error:outline-rose-500"
-                value={formData.fullname}
+                value={usersData.fullname}
                 onChange={handleChange}
               />
             </div>
@@ -52,7 +73,7 @@ const EditForm = () => {
               id="email"
               name="email"
               className="block h-10 w-full appearance-none rounded-lg bg-white px-3 sm:text-sm outline -outline-offset-1 outline-gray-950/15 focus:outline-gray-950 data-error:outline-rose-500"
-              value={formData.email}
+              value={usersData.email}
               onChange={handleChange}
             />
           </div>
@@ -63,7 +84,7 @@ const EditForm = () => {
               id="username"
               name="username"
               className="block h-10 w-full appearance-none rounded-lg bg-white px-3 sm:text-sm outline -outline-offset-1 outline-gray-950/15 focus:outline-gray-950 data-error:outline-rose-500"
-              value={formData.username}
+              value={usersData.username}
               onChange={handleChange}
             />
           </div>

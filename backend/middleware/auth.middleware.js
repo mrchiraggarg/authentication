@@ -8,7 +8,7 @@ export const authenticateToken = (req, res, next) => {
     console.log(`Authorization token: ${token}`); // Debugging log
 
     if (!token) {
-        return res.status(401).json({ message: 'Access token missing' });
+        return res.status(401).json({ message: 'Pardon! Access token missing' });
     }
 
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {

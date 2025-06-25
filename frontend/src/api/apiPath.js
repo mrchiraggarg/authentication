@@ -6,5 +6,6 @@ export const API_PATHS = {
         LOGIN: `${CORE_URL}/api/user/LoginUser`,
         GETALLUSERS: `${CORE_URL}/api/user/GetAllUsers`,
         DELETEUSER: `${CORE_URL}/api/user/DeleteUser`,
+        GETUSERBYID: `${CORE_URL}/api/user/GetUserById/:id`,
     }
 };

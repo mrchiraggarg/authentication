@@ -13,7 +13,8 @@ app.use(express.json());
 app.use(cors({
     origin: '*', // Allow all origins for simplicity, adjust as needed
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type']
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true // Allow credentials if needed
 }));
 
 const PORT = process.env.PORT || 5000;

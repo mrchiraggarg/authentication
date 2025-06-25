@@ -48,7 +48,6 @@ export const LoginUser = async (req, res) => {
             user: userWithoutPassword
         });
     } catch (error) {
-        // console.error('Error logging in:', error);
         res.status(500).json({
             message: 'Internal server error',
             error: error.message
@@ -98,7 +97,6 @@ export const CreateUser = async (req, res) => {
             }
         });
     } catch (error) {
-        // console.error('Error creating user:', error);
         res.status(500).json({
             message: 'Internal server error',
             error: error.message
@@ -111,7 +109,6 @@ export const GetAllUsers = async (req, res) => {
         const users = await User.find().select('-password'); // Exclude password from response
         res.status(200).json(users);
     } catch (error) {
-        // console.error('Error fetching users:', error);
         res.status(500).json({
             message: 'Internal server error',
             error: error.message
@@ -136,7 +133,6 @@ export const DeleteUser = async (req, res) => {
 
         res.status(200).json({ message: 'User deleted successfully' });
     } catch (error) {
-        // console.error('Error deleting user:', error);
         res.status(500).json({
             message: 'Internal server error',
             error: error.message

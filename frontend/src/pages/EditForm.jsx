@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import axiosInstance from '../utils/axiosInstance'
-import { API_PATHS } from '../utils/constants'
+import axiosInstance from '../api/axiosInstance.js';
+import { API_PATHS } from '../api/apiPath.js';
 
 const EditForm = () => {
   const { _id } = useParams()

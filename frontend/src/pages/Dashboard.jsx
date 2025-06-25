@@ -28,7 +28,6 @@ const Dashboard = () => {
       const response = await axiosInstance.post(API_PATHS.USER.DELETEUSER, { userId });
       if (response.status === 200) {
         setUsersData(usersData.filter(user => user._id !== userId));
-        console.log('User deleted successfully');
       }
     } catch (error) {
       console.error('Error deleting user:', error.response?.data || error.message);

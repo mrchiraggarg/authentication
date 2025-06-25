@@ -139,3 +139,27 @@ export const DeleteUser = async (req, res) => {
         });
     }
 }
+
+export const GetUserById = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Validate input
+        if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: 'Invalid user ID' });
+        }
+
+        // Find user by ID
+        const user = await User.findById(id).select('-password'); // Exclude password from response
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({
+            message: 'Internal server error',
+            error: error.message
+        });
+    }
+}

@@ -16,7 +16,7 @@ const EditForm = () => {
 
   const fetchUserById = async (userId) => {
     try {
-      const response = await axiosInstance.post(API_PATHS.USER.GETUSERBYID, { userId })
+      const response = await axiosInstance.get(`${API_PATHS.USER.GETUSERBYID}/${userId}`)
       if (response.status === 200) {
         setUsersData(response.data)
       }

@@ -4,7 +4,7 @@ import axiosInstance from '../api/axiosInstance.js';
 import { API_PATHS } from '../api/apiPath.js';
 
 const EditForm = () => {
-  const { _id } = useParams()
+  const { id } = useParams()
   const [usersData, setUsersData] = useState({
     fullname: '',
     email: '',
@@ -12,7 +12,7 @@ const EditForm = () => {
   })
   const [loading, setLoading] = useState(true)
 
-  console.log('EditForm component rendered with user ID:', _id)
+  // console.log('EditForm component rendered with user ID:', id)
 
   const fetchUserById = async (userId) => {
     try {
@@ -26,9 +26,9 @@ const EditForm = () => {
   }
 
   useEffect(() => {
-    fetchUserById(_id)
+    fetchUserById(id)
     setLoading(false)
-  }, [_id])
+  }, [id])
 
   const handleChange = (e) => {
     const { name, value } = e.target

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axiosInstance from '../api/axiosInstance.js';
 import { API_PATHS } from '../api/apiPath.js';
@@ -11,8 +11,8 @@ const EditForm = () => {
     username: ''
   })
   const [loading, setLoading] = useState(true)
-
-  // console.log('EditForm component rendered with user ID:', id)
+  const [buttonText, setButtonText] = useState('Save Changes')
+  const submitButtonRef = useRef(null)
 
   const fetchUserById = async (userId) => {
     try {
@@ -42,21 +42,16 @@ const EditForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    query.Selector('button[type="submit"]').text("Processing...");
-    // buttonText = ""; // Change button text to indicate processing
-    // Handle form submission here
+    setButtonText('Processing...')
     try {
       const response = await axiosInstance.post(API_PATHS.USER.UPDATEUSERBYID + `/${id}`, usersData)
       if (response.status === 200) {
-        navigate(`/dashboard/edit/${id}`) // Redirect to the dashboard or user details page
-        // console.log('User updated successfully:', response.data)
-        // Optionally, redirect or show a success message
+        navigate(`/dashboard/edit/${id}`)
       }
     } catch (error) {
       console.error('Error updating user:', error.response?.data || error.message)
     }
-    query.Selector('button[type="submit"]').text("Save Changes");
-    // buttonText = "Save Changes"; // Change button text to indicate processing
+    setButtonText('Save Changes')
   }
 
   return (
@@ -107,11 +102,12 @@ const EditForm = () => {
             />
           </div>
           <button
+            ref={submitButtonRef}
             type="submit"
             className="mt-10 w-full inline-flex justify-center rounded-full text-sm/6 font-semibold bg-gray-950 text-white hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-950 px-4 py-2"
             tabIndex="3"
           >
-            Save Changes
+            {buttonText}
           </button>
         </form>
       </div>

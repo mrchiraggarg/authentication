@@ -42,6 +42,8 @@ const EditForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+    query.Selector('button[type="submit"]').text("Processing...");
+    // buttonText = ""; // Change button text to indicate processing
     // Handle form submission here
     try {
       const response = await axiosInstance.post(API_PATHS.USER.UPDATEUSERBYID + `/${id}`, usersData)
@@ -53,6 +55,8 @@ const EditForm = () => {
     } catch (error) {
       console.error('Error updating user:', error.response?.data || error.message)
     }
+    query.Selector('button[type="submit"]').text("Save Changes");
+    // buttonText = "Save Changes"; // Change button text to indicate processing
   }
 
   return (
@@ -105,6 +109,7 @@ const EditForm = () => {
           <button
             type="submit"
             className="mt-10 w-full inline-flex justify-center rounded-full text-sm/6 font-semibold bg-gray-950 text-white hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-950 px-4 py-2"
+            tabIndex="3"
           >
             Save Changes
           </button>

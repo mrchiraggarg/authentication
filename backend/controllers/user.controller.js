@@ -163,3 +163,39 @@ export const GetUserById = async (req, res) => {
         });
     }
 }
+
+export const UpdateUserById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { fullname, email, username } = req.body;
+
+        // Validate input
+        if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: 'Invalid user ID' });
+        }
+        if (!fullname || !email || !username) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        // Find and update user
+        const updatedUser = await User.findByIdAndUpdate(
+            id,
+            { fullname, email, username },
+            { new: true, runValidators: true }
+        ).select('-password'); // Exclude password from response
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({
+            message: 'User updated successfully',
+            user: updatedUser
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: 'Internal server error',
+            error: error.message
+        });
+    }
+}

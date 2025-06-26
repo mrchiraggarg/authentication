@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import axiosInstance from '../api/axiosInstance.js';
 import { API_PATHS } from '../api/apiPath.js';
 
@@ -38,9 +38,21 @@ const EditForm = () => {
     }))
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
     // Handle form submission here
+    try {
+      const response = await axiosInstance.post(API_PATHS.USER.UPDATEUSERBYID + `/${id}`, usersData)
+      if (response.status === 200) {
+        navigate(`/dashboard/edit/${id}`) // Redirect to the dashboard or user details page
+        // console.log('User updated successfully:', response.data)
+        // Optionally, redirect or show a success message
+      }
+    } catch (error) {
+      console.error('Error updating user:', error.response?.data || error.message)
+    }
   }
 
   return (

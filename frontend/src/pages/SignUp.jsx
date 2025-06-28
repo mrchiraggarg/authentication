@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react'
-// import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import axiosInstance from '../api/axiosInstance.js';
 import { API_PATHS } from '../api/apiPath.js';
+import Header from '../components/Header.jsx';
+import Button from '../components/Button.jsx';
+import Input from '../components/Input.jsx';
+import Card from '../components/Card.jsx';
 
 const SignUp = () => {
     const [formData, setFormData] = useState({
@@ -11,6 +14,8 @@ const SignUp = () => {
         password: '',
         confirm_password: ''
     });
+    const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState({});
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -18,80 +23,158 @@ const SignUp = () => {
             ...prevState,
             [id]: value
         }));
+        // Clear error when user starts typing
+        if (errors[id]) {
+            setErrors(prev => ({ ...prev, [id]: '' }));
+        }
     };
 
     const navigate = useNavigate();
 
+    const validateForm = () => {
+        const newErrors = {};
+        if (!formData.fullname) newErrors.fullname = 'Full name is required';
+        if (!formData.email) newErrors.email = 'Email is required';
+        if (!formData.password) newErrors.password = 'Password is required';
+        if (formData.password.length < 6) newErrors.password = 'Password must be at least 6 characters';
+        if (!formData.confirm_password) newErrors.confirm_password = 'Please confirm your password';
+        if (formData.password !== formData.confirm_password) {
+            newErrors.confirm_password = 'Passwords do not match';
+        }
+        return newErrors;
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
+        
+        const formErrors = validateForm();
+        if (Object.keys(formErrors).length > 0) {
+            setErrors(formErrors);
+            return;
+        }
+
+        setLoading(true);
+        setErrors({});
+
         try {
-            if (formData.password === formData.confirm_password) {
-                // const response = await axios.post('http://localhost:5000/api/user/CreateUser', formData);
-                const response = await axiosInstance.post(API_PATHS.USER.CREATE, formData);
-                if (response.status === 200) {
-                    navigate('/');
-                }
-            } else {
-                console.error('Passwords do not match');
-                alert('Passwords do not match');
+            const response = await axiosInstance.post(API_PATHS.USER.CREATE, formData);
+            if (response.status === 200) {
+                navigate('/');
             }
         } catch (error) {
-            console.error('Registration failed:', error.response?.data || error.message);
+            setErrors({ 
+                general: error.response?.data?.message || 'Registration failed. Please try again.' 
+            });
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     return (
-        <>
-            <div className="grid min-h-dvh grid-cols-[1fr_2.5rem_minmax(0,var(--container-lg))_2.5rem_1fr] grid-rows-[1fr_auto_1fr] overflow-clip">
-                <div className="col-start-2 row-span-full row-start-1 max-sm:hidden text-gray-950/5 border-x border-x-current bg-size-[10px_10px] bg-fixed bg-[repeating-linear-gradient(315deg,currentColor_0,currentColor_1px,transparent_0,transparent_50%)]"></div>
-                <div className="col-start-4 row-span-full row-start-1 max-sm:hidden text-gray-950/5 border-x border-x-current bg-size-[10px_10px] bg-fixed bg-[repeating-linear-gradient(315deg,currentColor_0,currentColor_1px,transparent_0,transparent_50%)]"></div>
-                <main className="grid grid-cols-1 max-sm:col-span-full max-sm:col-start-1 max-sm:row-span-full max-sm:bg-gray-950/5 max-sm:p-2 sm:line-y sm:col-start-3 sm:row-start-2 sm:-mx-px sm:p-[calc(0.5rem+1px)]">
-                    <div className="grid grid-cols-1 items-center rounded-xl bg-white max-sm:p-6 sm:p-10">
-                        <div className="grid grid-cols-1 gap-10">
-                            <div>
-                                <form>
-                                    <div className="flex flex-col gap-2">
-                                        <label htmlFor="fullname" className="block text-sm/6 font-medium">Full Name</label>
-                                        <input type="text" id="fullname" className="block h-10 w-full appearance-none rounded-lg bg-white px-3 sm:text-sm outline -outline-offset-1 outline-gray-950/15 focus:outline-gray-950 data-error:outline-rose-500" required="" tabIndex="1" value={formData.fullname} onChange={handleChange} />
-                                    </div>
-                                    <div className="flex flex-col gap-2">
-                                        <label htmlFor="email" className="block text-sm/6 font-medium">Email</label>
-                                        <input type="email" id="email" className="block h-10 w-full appearance-none rounded-lg bg-white px-3 sm:text-sm outline -outline-offset-1 outline-gray-950/15 focus:outline-gray-950 data-error:outline-rose-500" required="" tabIndex="1" value={formData.email} onChange={handleChange} />
-                                    </div>
-                                    <div className="relative mt-6">
-                                        <div className="flex flex-col gap-2">
-                                            <label htmlFor="password" className="block text-sm/6 font-medium">Password</label>
-                                            <input type="password" id="password" className="block h-10 w-full appearance-none rounded-lg bg-white px-3 sm:text-sm outline -outline-offset-1 outline-gray-950/15 focus:outline-gray-950 data-error:outline-rose-500" required="" tabIndex="1" value={formData.password} onChange={handleChange} />
-                                        </div>
-                                    </div>
-                                    <div className="relative mt-6">
-                                        <div className="flex flex-col gap-2">
-                                            <label htmlFor="confirm_password" className="block text-sm/6 font-medium">Confirm Password</label>
-                                            <input type="password" id="confirm_password" className="block h-10 w-full appearance-none rounded-lg bg-white px-3 sm:text-sm outline -outline-offset-1 outline-gray-950/15 focus:outline-gray-950 data-error:outline-rose-500" required="" tabIndex="1" value={formData.confirm_password} onChange={handleChange} />
-                                        </div>
-                                    </div>
-                                    <button
-                                        type="submit"
-                                        className="mt-10 w-full inline-flex justify-center rounded-full text-sm/6 font-semibold bg-gray-950 text-white hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-950 px-4 py-2"
-                                        tabIndex="3"
-                                        onClick={handleSubmit}
-                                    >
-                                        Sign Up
-                                    </button>
-                                    <p className="mt-6 text-sm/6">
-                                        <span className="text-gray-600">Already have an account?</span>
-                                        <a className="font-semibold hover:text-gray-700" tabIndex="5" href="/">
-                                            &nbsp;Access Now <span aria-hidden="true">→</span>
-                                        </a>
-                                    </p>
-                                </form>
-                            </div>
+        <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50">
+            <Header title="Sign Up" />
+            
+            <div className="flex items-center justify-center px-4 py-12">
+                <div className="w-full max-w-md">
+                    <Card>
+                        <div className="text-center mb-8">
+                            <h2 className="text-3xl font-bold text-gray-900 mb-2">Create Account</h2>
+                            <p className="text-gray-600">Join us and start managing your account</p>
                         </div>
-                    </div>
-                </main>
-            </div>
-        </>
-    )
-}
 
-export default SignUp
+                        {errors.general && (
+                            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                                <p className="text-red-600 text-sm">{errors.general}</p>
+                            </div>
+                        )}
+
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <Input
+                                type="text"
+                                id="fullname"
+                                label="Full Name"
+                                placeholder="Enter your full name"
+                                value={formData.fullname}
+                                onChange={handleChange}
+                                error={errors.fullname}
+                                icon={
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                }
+                            />
+
+                            <Input
+                                type="email"
+                                id="email"
+                                label="Email Address"
+                                placeholder="Enter your email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                error={errors.email}
+                                icon={
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                                    </svg>
+                                }
+                            />
+
+                            <Input
+                                type="password"
+                                id="password"
+                                label="Password"
+                                placeholder="Create a password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                error={errors.password}
+                                icon={
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                    </svg>
+                                }
+                            />
+
+                            <Input
+                                type="password"
+                                id="confirm_password"
+                                label="Confirm Password"
+                                placeholder="Confirm your password"
+                                value={formData.confirm_password}
+                                onChange={handleChange}
+                                error={errors.confirm_password}
+                                icon={
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                }
+                            />
+
+                            <Button
+                                type="submit"
+                                loading={loading}
+                                className="w-full"
+                                size="lg"
+                            >
+                                {loading ? 'Creating Account...' : 'Create Account'}
+                            </Button>
+                        </form>
+
+                        <div className="mt-8 text-center">
+                            <p className="text-gray-600">
+                                Already have an account?{' '}
+                                <Link 
+                                    to="/" 
+                                    className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors duration-200"
+                                >
+                                    Sign in here →
+                                </Link>
+                            </p>
+                        </div>
+                    </Card>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default SignUp;

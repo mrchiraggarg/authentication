@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axiosInstance from '../api/axiosInstance.js';
 import { API_PATHS } from '../api/apiPath.js';
@@ -16,6 +16,15 @@ const SignUp = () => {
     });
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
+
+    // Check if user is already logged in
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            navigate('/dashboard');
+        }
+    }, [navigate]);
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -29,18 +38,23 @@ const SignUp = () => {
         }
     };
 
-    const navigate = useNavigate();
-
     const validateForm = () => {
         const newErrors = {};
-        if (!formData.fullname) newErrors.fullname = 'Full name is required';
-        if (!formData.email) newErrors.email = 'Email is required';
-        if (!formData.password) newErrors.password = 'Password is required';
+        if (!formData.fullname.trim()) newErrors.fullname = 'Full name is required';
+        if (!formData.email.trim()) newErrors.email = 'Email is required';
+        if (!formData.password.trim()) newErrors.password = 'Password is required';
         if (formData.password.length < 6) newErrors.password = 'Password must be at least 6 characters';
-        if (!formData.confirm_password) newErrors.confirm_password = 'Please confirm your password';
+        if (!formData.confirm_password.trim()) newErrors.confirm_password = 'Please confirm your password';
         if (formData.password !== formData.confirm_password) {
             newErrors.confirm_password = 'Passwords do not match';
         }
+        
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (formData.email && !emailRegex.test(formData.email)) {
+            newErrors.email = 'Please enter a valid email address';
+        }
+        
         return newErrors;
     };
 
@@ -57,7 +71,7 @@ const SignUp = () => {
         setErrors({});
 
         try {
-            const response = await axiosInstance.post(API_PATHS.USER.CREATE, formData);
+            const response = await axiosInstance.post('/api/user/CreateUser', formData);
             if (response.status === 200) {
                 navigate('/');
             }
@@ -76,15 +90,27 @@ const SignUp = () => {
             
             <div className="flex items-center justify-center px-4 py-12">
                 <div className="w-full max-w-md">
-                    <Card>
+                    <Card className="backdrop-blur-sm bg-white/80 border-white/20 shadow-xl">
                         <div className="text-center mb-8">
-                            <h2 className="text-3xl font-bold text-gray-900 mb-2">Create Account</h2>
+                            <div className="mx-auto w-16 h-16 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full flex items-center justify-center mb-4">
+                                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                                </svg>
+                            </div>
+                            <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+                                Create Account
+                            </h2>
                             <p className="text-gray-600">Join us and start managing your account</p>
                         </div>
 
                         {errors.general && (
-                            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-                                <p className="text-red-600 text-sm">{errors.general}</p>
+                            <div className="mb-6 p-4 bg-gradient-to-r from-red-50 to-pink-50 border border-red-200 rounded-lg">
+                                <div className="flex items-center space-x-3">
+                                    <svg className="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                    </svg>
+                                    <p className="text-red-700 text-sm font-medium">{errors.general}</p>
+                                </div>
                             </div>
                         )}
 

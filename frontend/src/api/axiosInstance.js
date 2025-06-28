@@ -1,17 +1,39 @@
 import axios from 'axios';
-import { API_PATHS } from '../api/apiPath.js'; // Import the API paths from the constants file
-const token = localStorage.getItem('token'); // Get the token from storage
+import { API_PATHS } from '../api/apiPath.js';
 
-// If the token is not available, it will be undefined
-// If the token is available, it will be a string
-
+// Create axios instance with proper configuration
 const axiosInstance = axios.create({
-  baseURL: API_PATHS.USER.CREATE, // Use the API path from the environment variable
-  timeout: 10000, // Set a timeout of 10 seconds
+  baseURL: 'http://localhost:5000', // Use base URL instead of specific endpoint
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
-    ...(token && { Authorization: `Bearer ${token}` })
   },
 });
+
+// Add request interceptor to include token dynamically
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Add response interceptor to handle auth errors globally
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      window.location.href = '/';
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default axiosInstance;
